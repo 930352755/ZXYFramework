@@ -1,21 +1,8 @@
 {
     "name": "com.unity.zxyfamework",
     "version": "1.0.0",
-    "displayName": "Package ZXYFramework",
-    "description": "This is ZXYFramework package",
-    "unity": "2020.3",
-    "unityRelease": "0b5",
     "dependencies": {
-        "com.unity.some-package": "1.0.0"
-    },
-    "keywords": [
-        "keyword1",
-        "keyword2",
-        "keyword3"
-    ],
-    "author": {
-        "name": "Unity",
-        "email": "unity@example.com",
-        "url": "https://www.unity3d.com"
+        "com.unity.addressables": "1.18.19",
     }
+
 }
