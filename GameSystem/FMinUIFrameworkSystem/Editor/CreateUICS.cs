@@ -112,6 +112,10 @@ namespace Game
             string endContent = "\n}";
             areaString.Append(endContent);
 
+            if (!Directory.Exists(Application.dataPath + "/" + UICSPath))
+            {
+                Directory.CreateDirectory(Application.dataPath + "/" + UICSPath);
+            }
             File.WriteAllText(path, areaString.ToString());
             AssetDatabase.Refresh();
             EditorUtility.DisplayDialog("生成完成", path, "确认");
@@ -194,7 +198,10 @@ namespace Game
 
             //int l = allEnum.Count;
             //if (l == (int)AllUIEnum.AllUIEnumNum) return;
-
+            if (!Directory.Exists(Application.dataPath + "/" + UIEnumPath))
+            {
+                Directory.CreateDirectory(Application.dataPath + "/" + UIEnumPath);
+            }
             string pathK = Application.dataPath + "/" + UIEnumPath + "/" + "AllUIEnum.cs";
             SetEnum(pathK, allEnum, "AllUIEnum", "Game");
 
@@ -202,6 +209,10 @@ namespace Game
             allUIPathInfo.allUIEnums = allEnum;
             allUIPathInfo.allPath = allPath;
 
+            if (!Directory.Exists(Application.dataPath + JsonFilePath + "JsonData"))
+            {
+                Directory.CreateDirectory(Application.dataPath + JsonFilePath + "JsonData");
+            }
             string json = JsonUtility.ToJson(allUIPathInfo);
             File.WriteAllText(JsonPath, json);
 
