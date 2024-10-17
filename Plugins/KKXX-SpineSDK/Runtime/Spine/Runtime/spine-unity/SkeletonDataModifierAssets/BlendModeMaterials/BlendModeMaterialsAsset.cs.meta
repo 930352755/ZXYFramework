@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: b7bf3080e0b14a358f35747f1cb649bf
+timeCreated: 1536404384
+licenseType: Pro
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - multiplyMaterialTemplate: {fileID: 2100000, guid: 62359d716d0e412194958109f299d800,
+      type: 2}
+  - screenMaterialTemplate: {fileID: 2100000, guid: 00037b8246ba465a9a727a0d790481eb,
+      type: 2}
+  - additiveMaterialTemplate: {fileID: 2100000, guid: 4014da681320491abe3f4b46f027c11d,
+      type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
