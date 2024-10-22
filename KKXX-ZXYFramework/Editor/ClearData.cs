@@ -11,7 +11,7 @@ namespace Game
     /// </summary>
     public class ClearData
     {
-        [UnityEditor.MenuItem("Game/清理所有存档信息", false, 2000)]
+        [UnityEditor.MenuItem("Game/清理所有存档信息", false, 3000)]
         private static void ClearAllData()
         {
             PPData.DeleteAll();
