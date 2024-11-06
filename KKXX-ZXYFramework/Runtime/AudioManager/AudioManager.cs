@@ -68,12 +68,16 @@ namespace Game
 
         public void ChangeBGM(string key)
         {
+
             AudioData audioData = GetAudioData(key);
             string name = audioData.name;
-
-            ISPlayMusic = false;
             curBGM = name;
-            ISPlayMusic = true;
+            if (ISPlayMusic)
+            {
+                ISPlayMusic = false;
+                ISPlayMusic = true;
+            }
+
         }
 
         /// <summary>
