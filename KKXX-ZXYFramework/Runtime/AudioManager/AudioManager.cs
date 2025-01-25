@@ -37,7 +37,7 @@ namespace Game
         private IEnumerator AwaitResInit()
         {
             yield return new WaitUntil(() => { return YooResManager.Instance.ISInitial; });
-            ChangeBGM(AudioControl.BGM);
+            //ChangeBGM(AudioControl.BGM);
             Debug.Log("<Color=#E60000>声音系统初始化完成</Color>");
         }
 
@@ -95,12 +95,12 @@ namespace Game
                 if (value)
                 {
                     PlayMusic(curBGM, MusicVolume);
-                    PPData.SetInt("Game_AudioManager_isPlayMusic", 1);
+                    QuickData.SetInt("Game_AudioManager_isPlayMusic", 1);
                 }
                 else
                 {
                     StopMusic();
-                    PPData.SetInt("Game_AudioManager_isPlayMusic", 0);
+                    QuickData.SetInt("Game_AudioManager_isPlayMusic", 0);
                 }
             }
         }
@@ -119,11 +119,11 @@ namespace Game
                 isPlaySound = value;
                 if (value)
                 {
-                    PPData.SetInt("Game_AudioManager_isPlaySound", 1);
+                    QuickData.SetInt("Game_AudioManager_isPlaySound", 1);
                 }
                 else
                 {
-                    PPData.SetInt("Game_AudioManager_isPlaySound", 0);
+                    QuickData.SetInt("Game_AudioManager_isPlaySound", 0);
                     StopAllLoopSound();
                 }
             }
@@ -136,11 +136,11 @@ namespace Game
         {
             get
             {
-                return PPData.GetFloat("Game_AudioManager_MusicVolume", 1f);
+                return QuickData.GetFloat("Game_AudioManager_MusicVolume", 1f);
             }
             set
             {
-                PPData.SetFloat("Game_AudioManager_MusicVolume", value);
+                QuickData.SetFloat("Game_AudioManager_MusicVolume", value);
                 if (aSMusic != null)
                 {
                     aSMusic.volume = value;
@@ -155,11 +155,11 @@ namespace Game
         {
             get
             {
-                return PPData.GetFloat("Game_AudioManager_SoundVolume", 1f);
+                return QuickData.GetFloat("Game_AudioManager_SoundVolume", 1f);
             }
             set
             {
-                PPData.SetFloat("Game_AudioManager_SoundVolume", value);
+                QuickData.SetFloat("Game_AudioManager_SoundVolume", value);
             }
         }
 
@@ -225,8 +225,8 @@ namespace Game
         /// </summary>
         private void AAwake()
         {
-            isPlayMusic = PPData.GetInt("Game_AudioManager_isPlayMusic", 1) == 1;
-            isPlaySound = PPData.GetInt("Game_AudioManager_isPlaySound", 1) == 1;
+            isPlayMusic = QuickData.GetInt("Game_AudioManager_isPlayMusic", 1) == 1;
+            isPlaySound = QuickData.GetInt("Game_AudioManager_isPlaySound", 1) == 1;
         }
 
         #endregion
