@@ -668,6 +668,26 @@ public static class ToolsClass
         }
     }
 
+    /// <summary>
+    /// 拿到这列表中这个元素的索引
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    public static int FindFirstIndexByValue(this List<string> self, string t)
+    {
+        int count = self.Count;
+        for (int i = 0; i < count; i++)
+        {
+            if (self[i] == t)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     #endregion
 
     #region Other

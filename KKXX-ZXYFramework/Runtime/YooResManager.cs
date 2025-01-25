@@ -192,8 +192,8 @@ public class FileOffsetDecryption : IDecryptionServices
         return AssetBundle.LoadFromFileAsync(fileInfo.FileLoadPath, fileInfo.ConentCRC, GetFileOffset());
     }
 
-    private static ulong GetFileOffset()
+    public static ulong GetFileOffset()
     {
-        return 32;
+        return 30;
     }
 }
