@@ -179,7 +179,7 @@ namespace Game
             {
                 Directory.CreateDirectory(JsonPathDir);
             }
-            string json = JsonUtility.ToJson(allUIPathInfo, true);
+            string json = allUIPathInfo.ToJson(true);
             File.WriteAllText(JsonPath, json);
             AssetDatabase.Refresh();
             return true;

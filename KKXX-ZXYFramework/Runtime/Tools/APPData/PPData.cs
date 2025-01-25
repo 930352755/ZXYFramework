@@ -116,7 +116,7 @@ namespace Game
         /// <param name="value">Object数据</param>
         public static void SetObject<T>(string key, T value)
         {
-            PlayerPrefs.SetString(key, JsonUtility.ToJson(value));
+            PlayerPrefs.SetString(key, value.ToJson());
         }
         /// <summary>
         /// 获取Object类型的数据(Object可序列化)
@@ -126,7 +126,7 @@ namespace Game
         /// <returns>Object数据</returns>
         public static T GetObject<T>(string key, T defaultValue = default)
         {
-            return JsonUtility.FromJson<T>(PlayerPrefs.GetString(key, JsonUtility.ToJson(defaultValue)));
+            return PlayerPrefs.GetString(key, defaultValue.ToJson()).FromJson<T>();
         }
 
         /// <summary>

@@ -59,7 +59,7 @@ namespace Game
                     }
                     else
                     {
-                        ConfigKeystore configData = JsonUtility.FromJson<ConfigKeystore>(keyStoreInfo);
+                        ConfigKeystore configData = keyStoreInfo.FromJson<ConfigKeystore>();
                         key_password = configData.store_password;
                         key_alias = configData.key_alias;
                         store_password = configData.key_password;
@@ -370,7 +370,7 @@ namespace Game
                 string.IsNullOrEmpty(PlayerSettings.Android.keyaliasName) ||
                 string.IsNullOrEmpty(PlayerSettings.Android.keyaliasPass))
             {
-                ConfigKeystore configData = JsonUtility.FromJson<ConfigKeystore>(keyStoreInfo);
+                ConfigKeystore configData = keyStoreInfo.FromJson<ConfigKeystore>();
                 PlayerSettings.Android.useCustomKeystore = true;
                 PlayerSettings.Android.keystoreName = Path.Combine(Path.GetDirectoryName(Application.dataPath), configData.store_path);
                 PlayerSettings.Android.keystorePass = configData.key_password;
@@ -417,7 +417,7 @@ namespace Game
             configKeystore.key_password = key_password;
             configKeystore.key_alias = key_alias;
             configKeystore.store_password = store_password;
-            string json = JsonUtility.ToJson(configKeystore);
+            string json = configKeystore.ToJson();
             File.WriteAllText(keyInfoPath, json);
             EditorUtility.DisplayDialog("The signature configuration is generated successfully. Procedure", $"Keystore configuration location : ${keyInfoPath}", "OK");
         }

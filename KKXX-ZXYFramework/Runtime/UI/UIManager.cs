@@ -84,7 +84,7 @@ namespace Game
             Log("开始加载UI");
             _isLoadOver = false;
             TextAsset jsonUI = await YooResManager.Instance.LoadAssetAsync<TextAsset>(UIJsonPath);
-            AllUIPathInfo allUIPathInfo = JsonUtility.FromJson<AllUIPathInfo>(jsonUI.text);
+            AllUIPathInfo allUIPathInfo = jsonUI.text.FromJson<AllUIPathInfo>();
             int count = allUIPathInfo.allPath.Count;
             List<GameObject> gs = new List<GameObject>();
             for (int i = 0; i < count; i++)

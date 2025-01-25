@@ -704,14 +704,15 @@ public static class ToolsClass
     }
 
     /// <summary>
-    /// Note: Dictionaries cannot be serialized
+    /// 转化成JSON
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="self"></param>
+    /// <param name="self">对象</param>
+    /// <param name="prettyPrint">是否格式化</param>
     /// <returns></returns>
-    public static string ToJson<T>(this T self)
+    public static string ToJson<T>(this T self, bool prettyPrint = false)
     {
-        return JsonUtility.ToJson(self);
+        return JsonUtility.ToJson(self, prettyPrint);
     }
 
     #endregion

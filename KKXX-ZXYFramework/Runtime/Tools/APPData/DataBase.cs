@@ -35,12 +35,13 @@ namespace Game
             {
                 if (string.IsNullOrEmpty(text))
                 {
-                    text = JsonUtility.ToJson(this);
+                    text = this.ToJson();
                 }
                 else
                 {
                     text = Decrypt(text);
                 }
+                //读取JSON写到自己里面
                 JsonUtility.FromJsonOverwrite(text, this);
             }
             catch (System.Exception e)
@@ -58,7 +59,7 @@ namespace Game
                 Directory.CreateDirectory(DirectoryPath);
             }
             StreamWriter stream = File.CreateText(FilePath);
-            string jsonText = JsonUtility.ToJson(this);
+            string jsonText = this.ToJson();
             jsonText = Encrypt(jsonText);
             stream.Write(jsonText);
             stream.Close();
