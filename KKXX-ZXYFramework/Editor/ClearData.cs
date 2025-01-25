@@ -14,7 +14,7 @@ namespace Game
         [UnityEditor.MenuItem("Game/清理所有存档信息", false, 3000)]
         private static void ClearAllData()
         {
-            PPData.DeleteAll();
+            PlayerPrefs.DeleteAll();
             if (Directory.Exists(Application.persistentDataPath)) Directory.Delete(Application.persistentDataPath, true);
             EditorUtility.DisplayDialog("清理数据", "清理完成，已经全部清理", "确定");
         }
