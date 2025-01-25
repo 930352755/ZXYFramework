@@ -73,7 +73,7 @@ namespace Game
         {
 
 #if UNITY_ANDROID
-            GUILayout.Label($"Android configuration description: Automatically set Android version A23-A34, automatically set IL2CPP. And set only ARM64");
+            GUILayout.Label($"Android configuration description: Automatically set Android version A24-A34, automatically set IL2CPP. And set only ARM64");
             GUILayout.Label($"Android packaging instructions: Please set the Keystore before packaging.");
 
             GUILayout.BeginHorizontal();
@@ -182,7 +182,7 @@ namespace Game
         {
 
 #if UNITY_ANDROID
-            PlayerSettings.Android.minSdkVersion = (AndroidSdkVersions)23;
+            PlayerSettings.Android.minSdkVersion = (AndroidSdkVersions)24;
             PlayerSettings.Android.targetSdkVersion = (AndroidSdkVersions)34;
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
@@ -281,7 +281,7 @@ namespace Game
         {
             public EncryptResult Encrypt(EncryptFileInfo fileInfo)
             {
-                int offset = 32;
+                int offset = (int)FileOffsetDecryption.GetFileOffset();
                 byte[] fileData = File.ReadAllBytes(fileInfo.FilePath);
                 var encryptedData = new byte[fileData.Length + offset];
                 Buffer.BlockCopy(fileData, 0, encryptedData, offset, fileData.Length);
@@ -337,8 +337,9 @@ namespace Game
             }
             long timestamp = (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
             if (isAndroid) return Path.Combine(path, "AndroidPro" + PlayerSettings.bundleVersion + timestamp);
-            if (isBuildAppBundle) return Path.Combine(path, "AAB"+PlayerSettings.bundleVersion + "(" + PlayerSettings.Android.bundleVersionCode + ")" + "-" + timestamp + "-" + "Release.aab");
-            else return Path.Combine(path, "APK"+PlayerSettings.bundleVersion + "(" + PlayerSettings.Android.bundleVersionCode + ")" + "-" + timestamp + "-" + (isDevBuild ? "Debug" : "Release") + ".apk");
+
+            if (isBuildAppBundle) return Path.Combine(path, "AAB" + PlayerSettings.bundleVersion + "(" + PlayerSettings.Android.bundleVersionCode + ")" + "-" + timestamp + "-" + "Release.aab");
+            else return Path.Combine(path, "APK" + PlayerSettings.bundleVersion + "(" + PlayerSettings.Android.bundleVersionCode + ")" + "-" + timestamp + "-" + (isDevBuild ? "Debug" : "Release") + ".apk");
         }
 
         #endregion
