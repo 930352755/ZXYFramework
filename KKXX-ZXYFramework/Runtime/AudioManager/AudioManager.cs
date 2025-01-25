@@ -95,12 +95,12 @@ namespace Game
                 if (value)
                 {
                     PlayMusic(curBGM, MusicVolume);
-                    PlayerPrefs.SetInt("isPlayMusic", 1);
+                    PPData.SetInt("Game_AudioManager_isPlayMusic", 1);
                 }
                 else
                 {
                     StopMusic();
-                    PlayerPrefs.SetInt("isPlayMusic", 0);
+                    PPData.SetInt("Game_AudioManager_isPlayMusic", 0);
                 }
             }
         }
@@ -119,11 +119,11 @@ namespace Game
                 isPlaySound = value;
                 if (value)
                 {
-                    PlayerPrefs.SetInt("isPlaySound", 1);
+                    PPData.SetInt("Game_AudioManager_isPlaySound", 1);
                 }
                 else
                 {
-                    PlayerPrefs.SetInt("isPlaySound", 0);
+                    PPData.SetInt("Game_AudioManager_isPlaySound", 0);
                     StopAllLoopSound();
                 }
             }
@@ -136,11 +136,11 @@ namespace Game
         {
             get
             {
-                return PlayerPrefs.GetFloat("MusicVolume", 1f);
+                return PPData.GetFloat("Game_AudioManager_MusicVolume", 1f);
             }
             set
             {
-                PlayerPrefs.SetFloat("MusicVolume", value);
+                PPData.SetFloat("Game_AudioManager_MusicVolume", value);
                 if (aSMusic != null)
                 {
                     aSMusic.volume = value;
@@ -155,11 +155,11 @@ namespace Game
         {
             get
             {
-                return PlayerPrefs.GetFloat("SoundVolume", 1f);
+                return PPData.GetFloat("Game_AudioManager_SoundVolume", 1f);
             }
             set
             {
-                PlayerPrefs.SetFloat("SoundVolume", value);
+                PPData.SetFloat("Game_AudioManager_SoundVolume", value);
             }
         }
 
@@ -225,8 +225,8 @@ namespace Game
         /// </summary>
         private void AAwake()
         {
-            isPlayMusic = PlayerPrefs.GetInt("isPlayMusic", 1) == 1;
-            isPlaySound = PlayerPrefs.GetInt("isPlaySound", 1) == 1;
+            isPlayMusic = PPData.GetInt("Game_AudioManager_isPlayMusic", 1) == 1;
+            isPlaySound = PPData.GetInt("Game_AudioManager_isPlaySound", 1) == 1;
         }
 
         #endregion
