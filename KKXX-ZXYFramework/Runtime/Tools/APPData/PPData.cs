@@ -18,7 +18,7 @@ namespace Game
         /// <param name="value">Int数据</param>
         public static void SetInt(string key, int value)
         {
-            PlayerPrefs.SetInt(key, value);
+            PPDataSave.Instance.SetData(key, value);
         }
         /// <summary>
         /// 获取Int类型的数据
@@ -27,7 +27,7 @@ namespace Game
         /// <returns>Int数据</returns>
         public static int GetInt(string key, int defaultValue = default)
         {
-            return PlayerPrefs.GetInt(key, defaultValue);
+            return PPDataSave.Instance.GetData(key, default).ASInt();
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Game
         /// <param name="value">Float数据</param>
         public static void SetFloat(string key, float value)
         {
-            PlayerPrefs.SetFloat(key, value);
+            PPDataSave.Instance.SetData(key, value);
         }
         /// <summary>
         /// 获取Float类型的数据
@@ -46,7 +46,7 @@ namespace Game
         /// <returns>Float数据</returns>
         public static float GetFloat(string key, float defaultValue = default)
         {
-            return PlayerPrefs.GetFloat(key, defaultValue);
+            return PPDataSave.Instance.GetData(key, default).ASFloat();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Game
         /// <param name="value">String数据</param>
         public static void SetString(string key, string value)
         {
-            PlayerPrefs.SetString(key, value);
+            PPDataSave.Instance.SetData(key, value);
         }
         /// <summary>
         /// 获取String类型的数据
@@ -65,7 +65,7 @@ namespace Game
         /// <returns>String数据</returns>
         public static string GetString(string key, string defaultValue = default)
         {
-            return PlayerPrefs.GetString(key, defaultValue);
+            return PPDataSave.Instance.GetData(key, default).ASString();
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Game
         /// <param name="value">Bool数据</param>
         public static void SetBool(string key, bool value)
         {
-            PlayerPrefs.SetInt(key, value ? 1 : 0);
+            PPDataSave.Instance.SetData(key, value);
         }
         /// <summary>
         /// 获取Bool类型的数据
@@ -84,7 +84,7 @@ namespace Game
         /// <returns>Bool数据</returns>
         public static bool GetBool(string key, bool defaultValue = default)
         {
-            return PlayerPrefs.GetInt(key, defaultValue ? 1 : 0) == 1;
+            return PPDataSave.Instance.GetData(key, default).ASBool();
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Game
         /// <param name="value">Enum数据</param>
         public static void SetEnum<T>(string key, T value) where T : Enum
         {
-            PlayerPrefs.SetString(key, value.ToString());
+            PPDataSave.Instance.SetData(key, value);
         }
         /// <summary>
         /// 获取Enum类型的数据
@@ -105,7 +105,7 @@ namespace Game
         /// <returns>Enum数据</returns>
         public static T GetEnum<T>(string key, T defaultValue = default) where T : Enum
         {
-            return (T)Enum.Parse(typeof(T), PlayerPrefs.GetString(key, defaultValue.ToString()));
+            return PPDataSave.Instance.GetData(key, default).AS<T>();
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Game
         /// <param name="value">Object数据</param>
         public static void SetObject<T>(string key, T value)
         {
-            PlayerPrefs.SetString(key, value.ToJson());
+            PPDataSave.Instance.SetData(key, value.ToJson());
         }
         /// <summary>
         /// 获取Object类型的数据(Object可序列化)
@@ -126,31 +126,9 @@ namespace Game
         /// <returns>Object数据</returns>
         public static T GetObject<T>(string key, T defaultValue = default)
         {
-            return PlayerPrefs.GetString(key, defaultValue.ToJson()).FromJson<T>();
+            return PPDataSave.Instance.GetData(key, defaultValue.ToJson()).ASString().FromJson<T>();
         }
 
-        /// <summary>
-        /// 保存一下
-        /// </summary>
-        public static void Save()
-        {
-            PlayerPrefs.Save();
-        }
-        /// <summary>
-        /// 删除某个数据
-        /// </summary>
-        /// <param name="key">Key值：唯一</param>
-        public static void Delete(string key)
-        {
-            PlayerPrefs.DeleteKey(key);
-        }
-        /// <summary>
-        /// 清理所有的数据
-        /// </summary>
-        public static void DeleteAll()
-        {
-            PlayerPrefs.DeleteAll();
-        }
         /// <summary>
         /// 是否存在某个数据
         /// </summary>
@@ -158,7 +136,8 @@ namespace Game
         /// <returns>存在与否</returns>
         public static bool HasKey(string key)
         {
-            return PlayerPrefs.HasKey(key);
+            return PPDataSave.Instance.ISHaveKey(key);
         }
+
     }
 }
