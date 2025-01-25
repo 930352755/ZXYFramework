@@ -194,6 +194,6 @@ public class FileOffsetDecryption : IDecryptionServices
 
     public static ulong GetFileOffset()
     {
-        return 30;
+        return 32;
     }
 }
