@@ -2,13 +2,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// 工具类
+/// </summary>
 public static class ToolsClass
 {
 
-    #region UnitySelfExpand
-    #region UI
+    #region UI UnityUGUI相关拓展
 
     #region RectTransform
+
     #region AnchoredPosition
     /// <summary>
     /// Set anchoredPosition via a vector coordinate
@@ -469,17 +473,17 @@ public static class ToolsClass
     #endregion
 
     /// <summary>
-    /// Button to add click event
+    /// 按钮添加点击事件
     /// </summary>
-    /// <param name="self">Button component of the UI</param>
-    /// <param name="action">Parameterless event</param>
+    /// <param name="self"></param>
+    /// <param name="action">点击触发事件</param>
     public static void AddClick(this Button self, System.Action action)
     {
         self.onClick.AddListener(() => { action(); });
     }
 
     /// <summary>
-    /// Set the location in the UI
+    /// 根据一个屏幕坐标点设置UI位置
     /// </summary>
     /// <param name="self">UI的Transform</param>
     /// <param name="parentTransform">UI parent object</param>
@@ -495,95 +499,10 @@ public static class ToolsClass
 
     #endregion
 
-    /// <summary>
-    /// Unknown level search object.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="childName"></param>
-    /// <returns></returns>
-    public static Transform FindChildTransformByName(this Transform self, string childName)
-    {
-        Transform c = self.Find(childName);
-        if (c != null) return c;
-        for (int i = 0; i < self.childCount; i++)
-        {
-            c = FindChildTransformByName(self.GetChild(i), childName);
-            if (c != null) return c;
-        }
-        return null;
-    }
+    #region 对列表的拓展
 
     /// <summary>
-    /// The unknown level acquires the components of the object.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="self"></param>
-    /// <param name="childName"></param>
-    /// <returns></returns>
-    public static T FindChindComponentByName<T>(this Transform self, string childName) where T : class
-    {
-        Transform tr = self.FindChildTransformByName(childName);
-        T t = tr.GetComponent<T>();
-        if (t == null)
-        {
-            Debug.LogError(string.Format("Component not found in {0} {1}", self.name, typeof(T)));
-            return null;
-        }
-        return t;
-    }
-
-    /// <summary>
-    /// Get all T components of an object (including itself and child objects)
-    /// </summary>
-    /// <param name="self"></param>
-    /// <returns></returns>
-    public static List<T> GetMono<T>(this Transform self) where T : MonoBehaviour
-    {
-        List<T> monoList = new List<T>();
-
-        T mono = self.GetComponent<T>();
-        if (mono != null)
-        {
-            monoList.Add(mono);
-        }
-
-        int count = self.childCount;
-        for (int i = 0; i < count; i++)
-        {
-            Transform trc = self.GetChild(i);
-            List<T> monoListN = GetMono<T>(trc);
-            if (monoListN.Count > 0)
-            {
-                monoList.AddRange(monoListN);
-            }
-        }
-        return monoList;
-    }
-
-    /// <summary>
-    /// Clipboard
-    /// </summary>
-    /// <returns></returns>
-    public static string GetClipboard()
-    {
-        return GUIUtility.systemCopyBuffer;
-    }
-
-    /// <summary>
-    /// Clipboard
-    /// </summary>
-    /// <returns></returns>
-    public static void SetClipboard(this string value)
-    {
-        GUIUtility.systemCopyBuffer = value;
-    }
-
-    #endregion
-
-    #region An extension to the linked list
-
-    /// <summary>
-    /// Selects an element from the list that matches a certain condition
+    /// 拿到这列表中第一个具体特殊性，符合某个条件的元素。
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="self"></param>
@@ -603,7 +522,7 @@ public static class ToolsClass
     }
 
     /// <summary>
-    /// Get all the elements in a linked list that match a certain condition
+    /// 拿到这列表中所有具有特殊性的元素
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="self"></param>
@@ -625,7 +544,7 @@ public static class ToolsClass
     }
 
     /// <summary>
-    /// Selects an element from the array that best matches a certain condition
+    /// 在一个列表中找到一个元素，这个元素在这个列表中有特殊性。
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="self"></param>
@@ -646,7 +565,7 @@ public static class ToolsClass
     }
 
     /// <summary>
-    /// Shuffle a list at random
+    /// 随机打乱数组
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="self"></param>
@@ -669,7 +588,7 @@ public static class ToolsClass
     }
 
     /// <summary>
-    /// 拿到这列表中这个元素的索引
+    /// 拿到这列表中这个列表元素的第一个索引
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="self"></param>
@@ -693,7 +612,25 @@ public static class ToolsClass
     #region Other
 
     /// <summary>
-    /// String conversion color
+    /// 从剪切板复制到内容
+    /// </summary>
+    /// <returns></returns>
+    public static string GetClipboard()
+    {
+        return GUIUtility.systemCopyBuffer;
+    }
+
+    /// <summary>
+    /// 将内容复制到剪切板
+    /// </summary>
+    /// <returns></returns>
+    public static void SetClipboard(this string value)
+    {
+        GUIUtility.systemCopyBuffer = value;
+    }
+
+    /// <summary>
+    /// 字符串转换颜色，无法转换默认是白色
     /// </summary>
     /// <param name="color"></param>
     /// <returns></returns>
@@ -704,7 +641,7 @@ public static class ToolsClass
     }
 
     /// <summary>
-    /// Set whether to accept clicks
+    /// 霸道的设置UI是否可以被点击，有风险，慎用
     /// </summary>
     /// <param name="isCan"></param>
     public static void SetUIClick(bool isCan)
@@ -713,7 +650,7 @@ public static class ToolsClass
     }
 
     /// <summary>
-    /// Note: Dictionaries cannot be serialized
+    /// 键值对类型，无法被序列化成对象
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="self"></param>
@@ -725,6 +662,7 @@ public static class ToolsClass
 
     /// <summary>
     /// 转化成JSON
+    /// 键值对类型无法使用这个进行序列话
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="self">对象</param>
@@ -733,6 +671,18 @@ public static class ToolsClass
     public static string ToJson<T>(this T self, bool prettyPrint = false)
     {
         return JsonUtility.ToJson(self, prettyPrint);
+    }
+
+    /// <summary>
+    /// 深度序列化复制一个对象
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="self"></param>
+    /// <returns></returns>
+    public static T CopySelf<T>(this T self)
+    {
+        string s = self.ToJson();
+        return s.FromJson<T>();
     }
 
     #endregion
