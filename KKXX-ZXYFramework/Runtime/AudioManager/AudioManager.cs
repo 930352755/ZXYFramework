@@ -14,7 +14,7 @@ namespace Game
     public class AudioManager : MonoBehaviour
     {
 
-        #region 初始化
+        #region 自动初始化
 
         /// <summary>
         /// 开机自起动
@@ -180,7 +180,7 @@ namespace Game
 
         #endregion
 
-        #region 音效数据
+        #region 音效数据，可配合读表
 
         public class AudioData
         {
@@ -202,7 +202,7 @@ namespace Game
         #region 音频数据的存储
 
         /// <summary>
-        /// 当前设置的BGM
+        /// 不对外 储存 当前设置的BGM
         /// </summary>
         private string curBGM
         {
@@ -215,7 +215,9 @@ namespace Game
                 QuickData.SetString("Game_AudioManager_curBGM",value);
             }
         }
-
+        /// <summary>
+        /// 不对外 储存 是否播放BGM
+        /// </summary>
         private bool isPlayMusic
         {
             get
@@ -227,7 +229,9 @@ namespace Game
                 QuickData.SetBool("Game_AudioManager_isPlayMusic", value);
             }
         }
-
+        /// <summary>
+        /// 不对外 储存 是否播放音效
+        /// </summary>
         private bool isPlaySound
         {
             get

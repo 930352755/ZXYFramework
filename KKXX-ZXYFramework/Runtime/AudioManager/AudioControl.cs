@@ -21,47 +21,40 @@ namespace Game
         }
         private AudioControl() { }
 
-        #region Fast data processing
+        #region 快速数据处理
 
         /// <summary>
-        /// BGM Initial play of BGM
-        /// </summary>
-        public readonly static string BGM = "BGM";
-        /// <summary>
-        /// The name of the button sound
+        /// 按钮点击音效声音的名称
         /// </summary>
         public readonly static string ButtonAudio = "ButtonClick";
         /// <summary>
-        /// Turn off button sound effects
+        /// 关闭按钮点击音效声音的名称
         /// </summary>
         public readonly static string ButtonClose = "ButtonClose";
-        /// <summary>
-        /// The name of the button event
-        /// </summary>
-        public readonly static string ButtonEvent = "ButtonClick";
+
 
         /// <summary>
-        /// Audio path
+        /// 音效资源路径
         /// </summary>
-        public const string AudioSoundPath = "Audios/";
+        public const string AudioSoundPath = "Audios/Sounds/";
         /// <summary>
-        /// Path of music
+        /// BGM资源路径
         /// </summary>
-        public const string AudioMusicPath = "Audios/BGM/";
+        public const string AudioMusicPath = "Audios/BGMS/";
 
         #endregion
 
         /// <summary>
-        /// Play sound
+        /// 播放音效
         /// </summary>
-        /// <param name="key">The Key of the sound effect, or simply write the name of the sound, should match the path</param>
-        /// <param name="isLoop">Loop or not</param>
+        /// <param name="key">声音效果的Key，或者只是简单地写下声音的名称，应该与路径相匹配</param>
+        /// <param name="isLoop">是否循环</param>
         public void PlaySound(string key, bool isLoop = false)
         {
             AudioManager.Instance.PlaySound(key, isLoop);
         }
         /// <summary>
-        /// Stop a loop sound effect
+        /// 停止一个循环音效
         /// </summary>
         /// <param name="key"></param>
         public void StopSound(string key)
@@ -69,7 +62,7 @@ namespace Game
             AudioManager.Instance.StopSound(key);
         }
         /// <summary>
-        /// Change a BGM
+        /// 切换一个BGM/播放BGM
         /// </summary>
         /// <param name="key"></param>
         public void ChangeBGM(string key)
@@ -79,7 +72,7 @@ namespace Game
 
 
         /// <summary>
-        /// BGM control properties (read-write)
+        /// BGM播放控制
         /// </summary>
         public bool ISPlayMusic
         {
@@ -94,7 +87,7 @@ namespace Game
         }
 
         /// <summary>
-        /// Audio control properties (read-write)
+        /// 音效播放控制
         /// </summary>
         public bool ISPlaySound
         {
@@ -109,7 +102,7 @@ namespace Game
         }
 
         /// <summary>
-        /// Background music size control
+        /// BGM大小控制
         /// </summary>
         public float MusicVolume
         {
@@ -124,7 +117,7 @@ namespace Game
         }
 
         /// <summary>
-        /// Control of sound effect size
+        /// 音效大小控制
         /// </summary>
         public float SoundVolume
         {

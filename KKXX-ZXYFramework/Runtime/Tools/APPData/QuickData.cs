@@ -1,9 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Game
 {
+
+    /// <summary>
+    /// 快速数据储取
+    /// 对Unity List 的处理，实现可以快速存储的操作
+    /// </summary>
     [System.Serializable]
     public class QuickData : DataBase
     {
@@ -29,6 +32,9 @@ namespace Game
         public SaveFloat saveFloat = new SaveFloat();
         public SaveDouble saveDouble = new SaveDouble();
 
+        /// <summary>
+        /// 保存的所有字符串元素
+        /// </summary>
         [System.Serializable]
         public class SaveString
         {
@@ -36,15 +42,18 @@ namespace Game
             public List<string> allValue = new List<string>();
             public string GetValue(string key,string defaultValue)
             {
+
                 if (!allKey.Contains(key)) return defaultValue;
-                int index = allKey.FindFirstIndexByValue(key);
+
+                int index = FindFirstIndexByValue(allKey, key);
                 return allValue[index];
+
             }
             public void SetValue(string key ,string value)
             {
                 if (allKey.Contains(key))
                 {
-                    int index = allKey.FindFirstIndexByValue(key);
+                    int index = FindFirstIndexByValue(allKey, key);
                     allValue[index] = value;
                 }
                 else
@@ -62,14 +71,14 @@ namespace Game
             public int GetValue(string key, int defaultValue)
             {
                 if (!allKey.Contains(key)) return defaultValue;
-                int index = allKey.FindFirstIndexByValue(key);
+                int index = FindFirstIndexByValue(allKey, key);
                 return allValue[index];
             }
             public void SetValue(string key, int value)
             {
                 if (allKey.Contains(key))
                 {
-                    int index = allKey.FindFirstIndexByValue(key);
+                    int index = FindFirstIndexByValue(allKey, key);
                     allValue[index] = value;
                 }
                 else
@@ -87,14 +96,14 @@ namespace Game
             public bool GetValue(string key, bool defaultValue)
             {
                 if (!allKey.Contains(key)) return defaultValue;
-                int index = allKey.FindFirstIndexByValue(key);
+                int index = FindFirstIndexByValue(allKey, key);
                 return allValue[index];
             }
             public void SetValue(string key, bool value)
             {
                 if (allKey.Contains(key))
                 {
-                    int index = allKey.FindFirstIndexByValue(key);
+                    int index = FindFirstIndexByValue(allKey, key);
                     allValue[index] = value;
                 }
                 else
@@ -112,14 +121,14 @@ namespace Game
             public float GetValue(string key, float defaultValue)
             {
                 if (!allKey.Contains(key)) return defaultValue;
-                int index = allKey.FindFirstIndexByValue(key);
+                int index = FindFirstIndexByValue(allKey, key);
                 return allValue[index];
             }
             public void SetValue(string key, float value)
             {
                 if (allKey.Contains(key))
                 {
-                    int index = allKey.FindFirstIndexByValue(key);
+                    int index = FindFirstIndexByValue(allKey, key);
                     allValue[index] = value;
                 }
                 else
@@ -137,14 +146,14 @@ namespace Game
             public double GetValue(string key, double defaultValue)
             {
                 if (!allKey.Contains(key)) return defaultValue;
-                int index = allKey.FindFirstIndexByValue(key);
+                int index = FindFirstIndexByValue(allKey, key);
                 return allValue[index];
             }
             public void SetValue(string key, double value)
             {
                 if (allKey.Contains(key))
                 {
-                    int index = allKey.FindFirstIndexByValue(key);
+                    int index = FindFirstIndexByValue(allKey, key);
                     allValue[index] = value;
                 }
                 else
@@ -255,7 +264,6 @@ namespace Game
             return QuickData.Instance.saveDouble.GetValue(key, defaultValue);
         }
 
-
         /// <summary>
         /// 保存Enum类型的数据
         /// </summary>
@@ -278,26 +286,25 @@ namespace Game
             return (T)System.Enum.Parse(typeof(T), QuickData.Instance.saveString.GetValue(key, defaultValue.ToString()));
         }
 
+
+
         /// <summary>
-        /// 保存Object类型的数据(Object可序列化)
+        /// 拿到这列表中这个列表元素的第一个索引
         /// </summary>
-        /// <typeparam name="T">Object类型</typeparam>
-        /// <param name="key">Key值：唯一</param>
-        /// <param name="value">Object数据</param>
-        public static void SetObject<T>(string key, T value)
+        /// <param name="self">List<string>字符串列表</param>
+        /// <param name="t">字符串</param>
+        /// <returns>这个字符串所在索引</returns>
+        private static int FindFirstIndexByValue(List<string> self, string t)
         {
-            QuickData.Instance.saveString.SetValue(key, value.ToJson());
-            QuickData.Instance.SaveData();
-        }
-        /// <summary>
-        /// 获取Object类型的数据(Object可序列化)
-        /// </summary>
-        /// <typeparam name="T">Object类型</typeparam>
-        /// <param name="key">Key值：唯一</param>
-        /// <returns>Object数据</returns>
-        public static T GetObject<T>(string key, T defaultValue = default)
-        {
-            return QuickData.Instance.saveString.GetValue(key, defaultValue.ToJson()).FromJson<T>();
+            int count = self.Count;
+            for (int i = 0; i < count; i++)
+            {
+                if (self[i] == t)
+                {
+                    return i;
+                }
+            }
+            return -1;
         }
 
     }
