@@ -14,41 +14,118 @@ namespace Game
     public class AudioManager : MonoBehaviour
     {
 
-        #region 自动初始化
+        #region 自动初始化 单例
 
         /// <summary>
         /// 开机自起动
         /// </summary>
-        [RuntimeInitializeOnLoadMethod]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void OnRuntimeMethodLoad()
         {
-            Instance.StartAudioSystem();
+            AudioManager _ = Instance;
+        }
+
+        private static AudioManager _instance = null;
+        public static AudioManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    GameObject ins = new GameObject("AudioManager");
+                    GameObject.DontDestroyOnLoad(ins);
+                    _instance = ins.AddComponent<AudioManager>();
+                }
+                return _instance;
+            }
+        }
+
+        #endregion
+
+        #region 属性控制
+
+        /// <summary>
+        /// 储存 当前设置的BGM
+        /// </summary>
+        public string CurrentBGM
+        {
+            get => QuickData.GetString("Game_AudioManager_CurrentBGM", "");
+            private set => QuickData.SetString("Game_AudioManager_CurrentBGM", value);
         }
 
         /// <summary>
-        /// 开始吧
+        /// 背景音乐控制属性（读写）
         /// </summary>
-        private void StartAudioSystem()
+        public bool IsMusicEnabled
         {
-            UpdataManager.Instance.StartCoroutine(AwaitResInit());
+            get => QuickData.GetBool("Game_AudioManager_isPlayMusic", true);
+            set
+            {
+                QuickData.SetBool("Game_AudioManager_isPlayMusic", value);
+                if (value && !string.IsNullOrEmpty(CurrentBGM))
+                {
+                    PlayMusic(CurrentBGM);
+                }
+                else
+                {
+                    StopMusic();
+                }
+            }
         }
 
         /// <summary>
-        /// 等待初始化
+        /// 音效控制属性（读写）
         /// </summary>
-        /// <returns></returns>
-        private IEnumerator AwaitResInit()
+        public bool IsSoundEnabled
         {
-            yield return new WaitUntil(() => { return YooResManager.Instance.ISInitial; });
-            Debug.Log("<Color=#E60000>声音系统初始化完成</Color>");
+            get => QuickData.GetBool("Game_AudioManager_isPlaySound", true);
+            set
+            {
+                QuickData.SetBool("Game_AudioManager_isPlaySound", value);
+                if (!value) StopAllLoopSounds();
+            }
+        }
+
+        /// <summary>
+        /// 背景音乐大小控制
+        /// </summary>
+        public float MusicVolume
+        {
+            get => QuickData.GetFloat("Game_AudioManager_MusicVolume", 1f);
+            set
+            {
+                QuickData.SetFloat("Game_AudioManager_MusicVolume", Mathf.Clamp01(value));
+                if (_musicSource != null) _musicSource.volume = value;
+            }
+        }
+
+        /// <summary>
+        /// 音效大小控制
+        /// </summary>
+        public float SoundVolume
+        {
+            get => QuickData.GetFloat("Game_AudioManager_SoundVolume", 1f);
+            set => QuickData.SetFloat("Game_AudioManager_SoundVolume", Mathf.Clamp01(value));
         }
 
         #endregion
 
         #region 调用处理
 
+        public void ChangeBGM(string key)
+        {
+            if (!IsMusicEnabled) return;
+            AudioData audioData = GetAudioData(key);
+            string name = audioData.name;
+            CurrentBGM = name;
+            IsMusicEnabled = false;
+            IsMusicEnabled = true;
+        }
+
         public void PlaySound(string key, bool isLoop = false)
         {
+            if (!IsSoundEnabled) return;
+
             AudioData audioData = GetAudioData(key);
             string name = audioData.name;
             if (isLoop)
@@ -68,119 +145,9 @@ namespace Game
             StopLoopSound(name);
         }
 
-        public void ChangeBGM(string key)
-        {
-
-            AudioData audioData = GetAudioData(key);
-            string name = audioData.name;
-            curBGM = name;
-            if (ISPlayMusic)
-            {
-                ISPlayMusic = false;
-                ISPlayMusic = true;
-            }
-
-        }
-
-        /// <summary>
-        /// 背景音乐控制属性（读写）
-        /// </summary>
-        public bool ISPlayMusic
-        {
-            get
-            {
-                return isPlayMusic;
-            }
-            set
-            {
-                isPlayMusic = value;
-                if (value)
-                {
-                    PlayMusic(curBGM, MusicVolume);
-                }
-                else
-                {
-                    StopMusic();
-                }
-            }
-        }
-
-        /// <summary>
-        /// 音效控制属性（读写）
-        /// </summary>
-        public bool ISPlaySound
-        {
-            get
-            {
-                return isPlaySound;
-            }
-            set
-            {
-                isPlaySound = value;
-                if (!value)
-                {
-                    StopAllLoopSound();
-                }
-            }
-        }
-
-        /// <summary>
-        /// 背景音乐大小控制
-        /// </summary>
-        public float MusicVolume
-        {
-            get
-            {
-                return QuickData.GetFloat("Game_AudioManager_MusicVolume", 1f);
-            }
-            set
-            {
-                QuickData.SetFloat("Game_AudioManager_MusicVolume", value);
-                if (aSMusic != null)
-                {
-                    aSMusic.volume = value;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 音效大小控制
-        /// </summary>
-        public float SoundVolume
-        {
-            get
-            {
-                return QuickData.GetFloat("Game_AudioManager_SoundVolume", 1f);
-            }
-            set
-            {
-                QuickData.SetFloat("Game_AudioManager_SoundVolume", value);
-            }
-        }
-
         #endregion
 
-        #region 单例
-
-        private static AudioManager instance = null;
-
-        public static AudioManager Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    GameObject ins = new GameObject("AudioManager");
-                    GameObject.DontDestroyOnLoad(ins);
-                    instance = ins.AddComponent<AudioManager>();
-                }
-                return instance;
-            }
-        }
-
-        #endregion
-
-        #region 音效数据，可配合读表
+        #region 音效数据，可配合读表，这是一个拓展
 
         public class AudioData
         {
@@ -199,63 +166,16 @@ namespace Game
 
         #endregion
 
-        #region 音频数据的存储
-
-        /// <summary>
-        /// 不对外 储存 当前设置的BGM
-        /// </summary>
-        private string curBGM
-        {
-            get
-            {
-                return QuickData.GetString("Game_AudioManager_curBGM", "");
-            }
-            set
-            {
-                QuickData.SetString("Game_AudioManager_curBGM",value);
-            }
-        }
-        /// <summary>
-        /// 不对外 储存 是否播放BGM
-        /// </summary>
-        private bool isPlayMusic
-        {
-            get
-            {
-                return QuickData.GetBool("Game_AudioManager_isPlayMusic", true);
-            }
-            set
-            {
-                QuickData.SetBool("Game_AudioManager_isPlayMusic", value);
-            }
-        }
-        /// <summary>
-        /// 不对外 储存 是否播放音效
-        /// </summary>
-        private bool isPlaySound
-        {
-            get
-            {
-                return QuickData.GetBool("Game_AudioManager_isPlaySound", true);
-            }
-            set
-            {
-                QuickData.SetBool("Game_AudioManager_isPlaySound", value);
-            }
-        }
-
-        #endregion
-
         #region 控制中心
 
-        private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
+        private readonly Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
 
         #region 普通音效处理
 
         /// <summary>
         /// 音效
         /// </summary>
-        private List<AudioSource> soundPool = new List<AudioSource>();
+        private readonly List<AudioSource> soundPool = new List<AudioSource>();
 
         /// <summary>
         /// 音效
@@ -279,15 +199,13 @@ namespace Game
                 });
                 return;
             };
-            if (isPlaySound)
-            {
-                AudioSource aS = GetASound();
-                aS.clip = audioClips[name];
-                aS.volume = volume;
-                aS.loop = false;
-                aS.Play();
-                RecycleSound(aS, audioClips[name].length);
-            }
+
+            AudioSource aS = GetASound();
+            aS.clip = audioClips[name];
+            aS.volume = volume;
+            aS.loop = false;
+            aS.Play();
+            RecycleSound(aS, audioClips[name].length);
         }
 
         private AudioSource GetASound()
@@ -311,18 +229,24 @@ namespace Game
         {
             StartCoroutine(DelayedCall(() =>
             {
-                aS.gameObject.SetActive(false);
-                soundPool.Add(aS);
+                aS.clip = null;
+                if (soundPool.Count < 10)
+                {
+                    aS.gameObject.SetActive(false);
+                    soundPool.Add(aS);
+                }
+                else
+                {
+                    GameObject.Destroy(aS.gameObject);
+                }
+                
             }, time));
         }
 
         private IEnumerator DelayedCall(System.Action action, float time)
         {
             yield return new WaitForSecondsRealtime(time);
-            if (action != null)
-            {
-                action();
-            }
+            action?.Invoke();
         }
 
         #endregion
@@ -332,7 +256,8 @@ namespace Game
         private Dictionary<string, AudioSource> soundLoopPool = new Dictionary<string, AudioSource>();
 
         /// <summary>
-        /// Play a loop sound effect
+        /// 播放一个循环音效
+        /// 每一个音效都是独立的AudioSource
         /// </summary>
         private void PlayLoopSound(string name, float volume = 1f)
         {
@@ -350,33 +275,30 @@ namespace Game
                 });
                 return;
             };
-            if (isPlaySound)
-            {
 
-                if (soundLoopPool.TryGetValue(name, out AudioSource aS))
-                {
-                    if (aS.isPlaying) return;
-                    aS.gameObject.SetActive(true);
-                    aS.clip = audioClips[name];
-                    aS.volume = volume;
-                    aS.loop = true;
-                    aS.Play();
-                }
-                else
-                {
-                    AudioSource aSM = (new GameObject("LoopSound")).AddComponent<AudioSource>();
-                    aSM.transform.parent = transform;
-                    aSM.clip = audioClips[name];
-                    aSM.volume = volume;
-                    aSM.loop = true;
-                    aSM.Play();
-                    soundLoopPool.Add(name, aSM);
-                }
+            if (soundLoopPool.TryGetValue(name, out AudioSource aS))
+            {
+                if (aS.isPlaying) return;
+                aS.gameObject.SetActive(true);
+                aS.clip = audioClips[name];
+                aS.volume = volume;
+                aS.loop = true;
+                aS.Play();
+            }
+            else
+            {
+                AudioSource aSM = (new GameObject("LoopSound"+ name)).AddComponent<AudioSource>();
+                aSM.transform.parent = transform;
+                aSM.clip = audioClips[name];
+                aSM.volume = volume;
+                aSM.loop = true;
+                aSM.Play();
+                soundLoopPool.Add(name, aSM);
             }
         }
 
         /// <summary>
-        /// Stop a loop sound effect
+        /// 停止一个循环音效
         /// </summary>
         /// <param name="name"></param>
         private void StopLoopSound(string name)
@@ -389,9 +311,9 @@ namespace Game
         }
 
         /// <summary>
-        /// Stop all looping sounds
+        /// 停止所有循环音效
         /// </summary>
-        private void StopAllLoopSound()
+        private void StopAllLoopSounds()
         {
             foreach (AudioSource aS in soundLoopPool.Values)
             {
@@ -402,12 +324,12 @@ namespace Game
 
         #endregion
 
-        #region BGM
+        #region 背景音乐
 
         /// <summary>
         /// BGM管理
         /// </summary>
-        private AudioSource aSMusic = null;
+        private AudioSource _musicSource = null;
 
         private void PlayMusic(string name, float volume = 1f)
         {
@@ -425,32 +347,32 @@ namespace Game
                 });
                 return;
             };
-            if (aSMusic != null)
+            if (_musicSource != null)
             {
-                if (aSMusic.isPlaying) return;
-                aSMusic.gameObject.SetActive(true);
-                aSMusic.clip = audioClips[name];
-                aSMusic.volume = volume;
-                aSMusic.loop = true;
-                aSMusic.Play();
+                if (_musicSource.isPlaying) return;
+                _musicSource.gameObject.SetActive(true);
+                _musicSource.clip = audioClips[name];
+                _musicSource.volume = volume;
+                _musicSource.loop = true;
+                _musicSource.Play();
             }
             else
             {
-                aSMusic = (new GameObject("Music")).AddComponent<AudioSource>();
-                aSMusic.transform.parent = transform;
-                aSMusic.clip = audioClips[name];
-                aSMusic.volume = volume;
-                aSMusic.loop = true;
-                aSMusic.Play();
+                _musicSource = (new GameObject("Music")).AddComponent<AudioSource>();
+                _musicSource.transform.parent = transform;
+                _musicSource.clip = audioClips[name];
+                _musicSource.volume = volume;
+                _musicSource.loop = true;
+                _musicSource.Play();
             }
         }
 
         private void StopMusic()
         {
-            if (aSMusic != null)
+            if (_musicSource != null)
             {
-                aSMusic.Stop();
-                aSMusic.gameObject.SetActive(false);
+                _musicSource.Stop();
+                _musicSource.gameObject.SetActive(false);
             };
         }
 

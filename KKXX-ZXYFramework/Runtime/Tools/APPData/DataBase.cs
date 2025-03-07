@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Game
 {
@@ -16,6 +17,55 @@ namespace Game
         public string FilePath => Path.Combine(UnityEngine.Application.persistentDataPath, "GameData", DataPath);
         public string DirectoryPath => Path.Combine(UnityEngine.Application.persistentDataPath, "GameData");
 
+
+        /// <summary>
+        /// 加载保持数据
+        /// </summary>
+        public void LoadData()
+        {
+            if (!Directory.Exists(DirectoryPath))
+            {
+                Directory.CreateDirectory(DirectoryPath);
+            }
+            if (!File.Exists(FilePath))
+            {
+                StreamWriter stream = File.CreateText(FilePath);
+                stream.Close();
+            }
+            string text = File.ReadAllText(FilePath);
+            try
+            {
+                if (string.IsNullOrEmpty(text))
+                {
+                    text = this.ToJson();
+                }
+                else
+                {
+                    text = Decrypt(text);
+                }
+                //读取JSON写到自己里面
+                JsonConvert.PopulateObject(text, this);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Game_DataBase: Direct parsing failed. Clear file :{e}");
+            }
+        }
+        /// <summary>
+        /// 保存数据
+        /// </summary>
+        public void SaveData()
+        {
+            if (!Directory.Exists(DirectoryPath))
+            {
+                Directory.CreateDirectory(DirectoryPath);
+            }
+            StreamWriter stream = File.CreateText(FilePath);
+            string jsonText = this.ToJson();
+            jsonText = Encrypt(jsonText);
+            stream.Write(jsonText);
+            stream.Close();
+        }
 
 
         /// <summary>

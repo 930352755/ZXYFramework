@@ -32,7 +32,6 @@ namespace Game
         /// </summary>
         public readonly static string ButtonClose = "ButtonClose";
 
-
         /// <summary>
         /// 音效资源路径
         /// </summary>
@@ -74,30 +73,30 @@ namespace Game
         /// <summary>
         /// BGM播放控制
         /// </summary>
-        public bool ISPlayMusic
+        public bool IsMusicEnabled
         {
             get
             {
-                return AudioManager.Instance.ISPlayMusic;
+                return AudioManager.Instance.IsMusicEnabled;
             }
             set
             {
-                AudioManager.Instance.ISPlayMusic = value;
+                AudioManager.Instance.IsMusicEnabled = value;
             }
         }
 
         /// <summary>
         /// 音效播放控制
         /// </summary>
-        public bool ISPlaySound
+        public bool IsSoundEnabled
         {
             get
             {
-                return AudioManager.Instance.ISPlaySound;
+                return AudioManager.Instance.IsSoundEnabled;
             }
             set
             {
-                AudioManager.Instance.ISPlaySound = value;
+                AudioManager.Instance.IsSoundEnabled = value;
             }
         }
 

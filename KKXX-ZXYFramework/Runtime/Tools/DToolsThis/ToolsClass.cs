@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Newtonsoft.Json;
 
 /// <summary>
 /// 工具类
@@ -11,467 +12,6 @@ public static class ToolsClass
 
     #region UI UnityUGUI相关拓展
 
-    #region RectTransform
-
-    #region AnchoredPosition
-    /// <summary>
-    /// Set anchoredPosition via a vector coordinate
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="anchoredPosition">Coordinate position</param>
-    /// <returns></returns>
-    public static RectTransform AnchoredPosition(this RectTransform self, Vector3 anchoredPosition)
-    {
-        self.anchoredPosition = anchoredPosition;
-        return self;
-    }
-    /// <summary>
-    /// Set anchoredPosition via an X coordinate and a Y coordinate
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform AnchoredPosition(this RectTransform self, float x, float y)
-    {
-        Vector2 anchoredPosition = self.anchoredPosition;
-        anchoredPosition.x = x;
-        anchoredPosition.y = y;
-        self.anchoredPosition = anchoredPosition;
-        return self;
-    }
-    /// <summary>
-    /// Set anchoredPosition X coordinate value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <returns></returns>
-    public static RectTransform AnchoredPositionX(this RectTransform self, float x)
-    {
-        Vector2 anchoredPosition = self.anchoredPosition;
-        anchoredPosition.x = x;
-        self.anchoredPosition = anchoredPosition;
-        return self;
-    }
-    /// <summary>
-    /// Set anchoredPosition Y coordinate value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="y">Y</param>
-    /// <returns></returns>
-    public static RectTransform AnchoredPositionY(this RectTransform self, float y)
-    {
-        Vector2 anchoredPosition = self.anchoredPosition;
-        anchoredPosition.y = y;
-        self.anchoredPosition = anchoredPosition;
-        return self;
-    }
-    #endregion
-    #region OffsetMax
-    /// <summary>
-    /// Set the offset max.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="offsetMax"></param>
-    /// <returns></returns>
-    public static RectTransform OffsetMax(this RectTransform self, Vector2 offsetMax)
-    {
-        self.offsetMax = offsetMax;
-        return self;
-    }
-    /// <summary>
-    /// Set the offset max.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform OffsetMax(this RectTransform self, float x, float y)
-    {
-        Vector2 offsetMax = self.offsetMax;
-        offsetMax.x = x;
-        offsetMax.y = y;
-        self.offsetMax = offsetMax;
-        return self;
-    }
-    /// <summary>
-    /// Set the offset max x value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <returns></returns>
-    public static RectTransform OffsetMaxX(this RectTransform self, float x)
-    {
-        Vector2 offsetMax = self.offsetMax;
-        offsetMax.x = x;
-        self.offsetMax = offsetMax;
-        return self;
-    }
-    /// <summary>
-    /// Set the offset max y value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform OffsetMaxY(this RectTransform self, float y)
-    {
-        Vector2 offsetMax = self.offsetMax;
-        offsetMax.y = y;
-        self.offsetMax = offsetMax;
-        return self;
-    }
-    #endregion
-    #region OffsetMin
-    /// <summary>
-    /// Set the offset min.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="offsetMin"></param>
-    /// <returns></returns>
-    public static RectTransform OffsetMin(this RectTransform self, Vector2 offsetMin)
-    {
-        self.offsetMin = offsetMin;
-        return self;
-    }
-    /// <summary>
-    /// Set the offset min.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform OffsetMin(this RectTransform self, float x, float y)
-    {
-        Vector2 offsetMin = self.offsetMin;
-        offsetMin.x = x;
-        offsetMin.y = y;
-        self.offsetMin = offsetMin;
-        return self;
-    }
-    /// <summary>
-    /// Set the offset min x value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <returns></returns>
-    public static RectTransform OffsetMinX(this RectTransform self, float x)
-    {
-        Vector2 offsetMin = self.offsetMin;
-        offsetMin.x = x;
-        self.offsetMin = offsetMin;
-        return self;
-    }
-    /// <summary>
-    /// Set the offset min y value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform OffsetMinY(this RectTransform self, float y)
-    {
-        Vector2 offsetMin = self.offsetMin;
-        offsetMin.y = y;
-        self.offsetMin = offsetMin;
-        return self;
-    }
-    #endregion
-    #region AnchoredPosition3D
-    /// <summary>
-    /// Set the anchored position 3d.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="anchoredPosition3D"></param>
-    /// <returns></returns>
-    public static RectTransform AnchoredPosition3D(this RectTransform self, Vector2 anchoredPosition3D)
-    {
-        self.anchoredPosition3D = anchoredPosition3D;
-        return self;
-    }
-    /// <summary>
-    /// Set the anchored position 3d.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform AnchoredPosition3D(this RectTransform self, float x, float y)
-    {
-        Vector2 anchoredPosition3D = self.anchoredPosition3D;
-        anchoredPosition3D.x = x;
-        anchoredPosition3D.y = y;
-        self.anchoredPosition3D = anchoredPosition3D;
-        return self;
-    }
-    /// <summary>
-    /// Set the anchored position 3d x value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <returns></returns>
-    public static RectTransform AnchoredPosition3DX(this RectTransform self, float x)
-    {
-        Vector2 anchoredPosition3D = self.anchoredPosition3D;
-        anchoredPosition3D.x = x;
-        self.anchoredPosition3D = anchoredPosition3D;
-        return self;
-    }
-    /// <summary>
-    /// Set the anchored position 3d y value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform AnchoredPosition3DY(this RectTransform self, float y)
-    {
-        Vector2 anchoredPosition3D = self.anchoredPosition3D;
-        anchoredPosition3D.y = y;
-        self.anchoredPosition3D = anchoredPosition3D;
-        return self;
-    }
-    #endregion
-    #region AnchorMin
-    /// <summary>
-    /// Set the anchor min.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="anchorMin"></param>
-    /// <returns></returns>
-    public static RectTransform AnchorMin(this RectTransform self, Vector2 anchorMin)
-    {
-        self.anchorMin = anchorMin;
-        return self;
-    }
-    /// <summary>
-    /// Set the anchor min.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform AnchorMin(this RectTransform self, float x, float y)
-    {
-        Vector2 anchorMin = self.anchorMin;
-        anchorMin.x = x;
-        anchorMin.y = y;
-        self.anchorMin = anchorMin;
-        return self;
-    }
-    /// <summary>
-    /// Set the anchor min x value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <returns></returns>
-    public static RectTransform AnchorMinX(this RectTransform self, float x)
-    {
-        Vector2 anchorMin = self.anchorMin;
-        anchorMin.x = x;
-        self.anchorMin = anchorMin;
-        return self;
-    }
-    /// <summary>
-    /// Set the anchor min y value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform AnchorMinY(this RectTransform self, float y)
-    {
-        Vector2 anchorMin = self.anchorMin;
-        anchorMin.y = y;
-        self.anchorMin = anchorMin;
-        return self;
-    }
-    #endregion
-    #region AnchorMax
-    /// <summary>
-    /// Set the anchor max.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="anchorMax"></param>
-    /// <returns></returns>
-    public static RectTransform AnchorMax(this RectTransform self, Vector2 anchorMax)
-    {
-        self.anchorMax = anchorMax;
-        return self;
-    }
-    /// <summary>
-    /// Set the anchor max.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform AnchorMax(this RectTransform self, float x, float y)
-    {
-        Vector2 anchorMax = self.anchorMax;
-        anchorMax.x = x;
-        anchorMax.y = y;
-        self.anchorMax = anchorMax;
-        return self;
-    }
-    /// <summary>
-    /// Set the anchor max x value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <returns></returns>
-    public static RectTransform AnchorMaxX(this RectTransform self, float x)
-    {
-        Vector2 anchorMax = self.anchorMax;
-        anchorMax.x = x;
-        self.anchorMax = anchorMax;
-        return self;
-    }
-    /// <summary>
-    /// Set the anchor max y value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform AnchorMaxY(this RectTransform self, float y)
-    {
-        Vector2 anchorMax = self.anchorMax;
-        anchorMax.y = y;
-        self.anchorMax = anchorMax;
-        return self;
-    }
-    #endregion
-    #region Pivot
-    /// <summary>
-    /// Set the pivot.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="pivot"></param>
-    /// <returns></returns>
-    public static RectTransform Pivot(this RectTransform self, Vector2 pivot)
-    {
-        self.pivot = pivot;
-        return self;
-    }
-    /// <summary>
-    /// Set the pivot.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform Pivot(this RectTransform self, float x, float y)
-    {
-        Vector2 pivot = self.pivot;
-        pivot.x = x;
-        pivot.y = y;
-        self.pivot = pivot;
-        return self;
-    }
-    /// <summary>
-    /// Set the pivot x value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <returns></returns>
-    public static RectTransform PivotX(this RectTransform self, float x)
-    {
-        Vector2 pivot = self.pivot;
-        pivot.x = x;
-        self.pivot = pivot;
-        return self;
-    }
-    /// <summary>
-    /// Set the pivot y value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform PivotY(this RectTransform self, float y)
-    {
-        Vector2 pivot = self.pivot;
-        pivot.y = y;
-        self.pivot = pivot;
-        return self;
-    }
-    #endregion
-    #region SizeDelta
-    /// <summary>
-    /// Set the size delta.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="sizeDelta"></param>
-    /// <returns></returns>
-    public static RectTransform SizeDelta(this RectTransform self, Vector2 sizeDelta)
-    {
-        self.sizeDelta = sizeDelta;
-        return self;
-    }
-    /// <summary>
-    /// Set the size delta.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform SizeDelta(this RectTransform self, float x, float y)
-    {
-        Vector2 sizeDelta = self.sizeDelta;
-        sizeDelta.x = x;
-        sizeDelta.y = y;
-        self.sizeDelta = sizeDelta;
-        return self;
-    }
-    /// <summary>
-    /// Set the size delta x value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="x"></param>
-    /// <returns></returns>
-    public static RectTransform SizeDeltaX(this RectTransform self, float x)
-    {
-        Vector2 sizeDelta = self.sizeDelta;
-        sizeDelta.x = x;
-        self.sizeDelta = sizeDelta;
-        return self;
-    }
-    /// <summary>
-    /// Set the size delta y value.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="y"></param>
-    /// <returns></returns>
-    public static RectTransform SizeDeltaY(this RectTransform self, float y)
-    {
-        Vector2 sizeDelta = self.sizeDelta;
-        sizeDelta.y = y;
-        self.sizeDelta = sizeDelta;
-        return self;
-    }
-    #endregion
-    #region Size
-    /// <summary>
-    /// Set width with current anchors.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="width"></param>
-    /// <returns></returns>
-    public static RectTransform SetSizeWidth(this RectTransform self, float width)
-    {
-        self.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
-        return self;
-    }
-    /// <summary>
-    /// Set height with current anchors.
-    /// </summary>
-    /// <param name="self"></param>
-    /// <param name="height"></param>
-    /// <returns></returns>
-    public static RectTransform SetSizeHeight(this RectTransform self, float height)
-    {
-        self.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
-        return self;
-    }
-
-    #endregion
-    #endregion
-
     /// <summary>
     /// 按钮添加点击事件
     /// </summary>
@@ -479,11 +19,12 @@ public static class ToolsClass
     /// <param name="action">点击触发事件</param>
     public static void AddClick(this Button self, System.Action action)
     {
-        self.onClick.AddListener(() => { action(); });
+        self.onClick.AddListener(() => { action?.Invoke(); });
     }
 
     /// <summary>
     /// 根据一个屏幕坐标点设置UI位置
+    /// 实现拖拽操作
     /// </summary>
     /// <param name="self">UI的Transform</param>
     /// <param name="parentTransform">UI parent object</param>
@@ -510,6 +51,7 @@ public static class ToolsClass
     /// <returns></returns>
     public static T GetOneByList<T>(this List<T> self, System.Func<T, bool> func)
     {
+        if (self == null) return default;
         int count = self.Count;
         for (int i = 0; i < count; i++)
         {
@@ -531,7 +73,7 @@ public static class ToolsClass
     public static List<T> GetAllByList<T>(this List<T> self, System.Func<T, bool> func)
     {
         List<T> ts = new List<T>();
-
+        if (self == null) return ts;
         int count = self.Count;
         for (int i = 0; i < count; i++)
         {
@@ -545,6 +87,7 @@ public static class ToolsClass
 
     /// <summary>
     /// 在一个列表中找到一个元素，这个元素在这个列表中有特殊性。
+    /// 比如，找到这列表中，最帅的一个元素，就可以用这个
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="self"></param>
@@ -552,6 +95,7 @@ public static class ToolsClass
     /// <returns></returns>
     public static T GetOneByList<T>(this List<T> self, System.Func<T, T, bool> func)
     {
+        if (self == null || self.Count <= 0) return default;
         T t = self[0];
         int count = self.Count;
         for (int i = 1; i < count; i++)
@@ -565,7 +109,7 @@ public static class ToolsClass
     }
 
     /// <summary>
-    /// 随机打乱数组
+    /// 随机打乱数组(很好用的)
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="self"></param>
@@ -587,25 +131,62 @@ public static class ToolsClass
         }
     }
 
-    ///// <summary>
-    ///// 拿到这列表中这个列表元素的第一个索引
-    ///// </summary>
-    ///// <typeparam name="T"></typeparam>
-    ///// <param name="self"></param>
-    ///// <param name="t"></param>
-    ///// <returns></returns>
-    //public static int FindFirstIndexByValue(this List<string> self, string t)
-    //{
-    //    int count = self.Count;
-    //    for (int i = 0; i < count; i++)
-    //    {
-    //        if (self[i] == t)
-    //        {
-    //            return i;
-    //        }
-    //    }
-    //    return -1;
-    //}
+    /// <summary>
+    /// 移除一个int列表中所有另一个列表中相同的元素
+    /// 返回一个全新的列表
+    /// </summary>
+    /// <param name="sourceList">目标列表</param>
+    /// <param name="removeList">需要移除的列表</param>
+    /// <returns></returns>
+    public static List<int> GetRandomAfterRemoval(this List<int> sourceList, List<int> removeList)
+    {
+        List<int> filteredList = sourceList.Except(removeList).ToList();
+        return filteredList;
+    }
+
+    /// <summary>
+    /// 拿到这个字符串列表中，这个特定字符串元素的索引
+    /// 比如在{a,s,d,f,g,h} 传入 g 返回 4;
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="self"></param>
+    /// <param name="t"></param>
+    /// <returns></returns>
+    public static int FindFirstIndexByValue(this List<string> self, string t)
+    {
+        int count = self.Count;
+        for (int i = 0; i < count; i++)
+        {
+            if (self[i] == t)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /// <summary>
+    /// 打印出一个列表所有元素
+    /// </summary>
+    /// <param name="list"></param>
+    public static void Printf<T>(this List<T> list)
+    {
+        if (list == null) return;
+        int count = list.Count;
+        string str = "";
+        for (int i = 0; i < count; i++)
+        {
+            if (i == 0)
+            {
+                str = list[i].ToString();
+            }
+            else
+            {
+                str = str + "\t" + list[i].ToString();
+            }
+        }
+        Debug.Log(str);
+    }
 
     #endregion
 
@@ -634,7 +215,7 @@ public static class ToolsClass
     /// </summary>
     /// <param name="color"></param>
     /// <returns></returns>
-    public static Color GetColor(this string color)
+    public static Color GetColor(string color)
     {
         ColorUtility.TryParseHtmlString(color, out Color colorGold);
         return colorGold;
@@ -650,19 +231,17 @@ public static class ToolsClass
     }
 
     /// <summary>
-    /// 键值对类型，无法被序列化成对象
+    /// 反序列化
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="self"></param>
     /// <returns></returns>
     public static T FromJson<T>(this string self)
     {
-        return JsonUtility.FromJson<T>(self);
+        return JsonConvert.DeserializeObject<T>(self);
     }
-
     /// <summary>
     /// 转化成JSON
-    /// 键值对类型无法使用这个进行序列话
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="self">对象</param>
@@ -670,7 +249,7 @@ public static class ToolsClass
     /// <returns></returns>
     public static string ToJson<T>(this T self, bool prettyPrint = false)
     {
-        return JsonUtility.ToJson(self, prettyPrint);
+        return JsonConvert.SerializeObject(self, prettyPrint ? Formatting.Indented : Formatting.None);
     }
 
     /// <summary>

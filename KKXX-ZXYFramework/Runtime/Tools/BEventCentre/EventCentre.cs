@@ -91,6 +91,7 @@ namespace Game
 #endif
             }
         }
+
         /// <summary>
         /// Remove message
         /// </summary>
@@ -102,14 +103,14 @@ namespace Game
             {
                 if (action == null)
                 {
+                    Debug("移除事件：" + eventDesDic[name]);
                     eventDic.Remove(name);
                     eventDesDic.Remove(name);
-                    Debug("Remove Event：" + eventDesDic[name]);
                 }
                 else
                 {
+                    Debug("移除一个事件：" + eventDesDic[name]);
                     eventDic[name] -= action;
-                    Debug("Cancel an event：" + eventDesDic[name]);
                 }
             }
         }
