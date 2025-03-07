@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System.Text;
-using UnityEngine.UI;
 
 namespace Game
 {
@@ -146,8 +145,6 @@ namespace Game
             Debug.LogError(msg);
             EditorUtility.DisplayDialog("生成失败", "！！！！！！具体请看控制台！！！！！！", "确定");
         }
-
-
 
         #endregion
 

@@ -7,17 +7,17 @@ namespace Game
 {
 
     /// <summary>
-    ///  20220922
-    ///  Simple sound management system
-    ///  No mount, called when Loading is loaded.
+    ///  20250308
+    ///  音音效管理
+    ///  自动加载启动，自动启动项目
     /// </summary>
     public class AudioManager : MonoBehaviour
     {
 
-        #region Initial
+        #region 初始化
 
         /// <summary>
-        /// For external use
+        /// 开机自起动
         /// </summary>
         [RuntimeInitializeOnLoadMethod]
         private static void OnRuntimeMethodLoad()
@@ -26,24 +26,26 @@ namespace Game
         }
 
         /// <summary>
-        /// Initial point
-        /// Startup script
+        /// 开始吧
         /// </summary>
         private void StartAudioSystem()
         {
             UpdataManager.Instance.StartCoroutine(AwaitResInit());
         }
 
+        /// <summary>
+        /// 等待初始化
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator AwaitResInit()
         {
             yield return new WaitUntil(() => { return YooResManager.Instance.ISInitial; });
-            //ChangeBGM(AudioControl.BGM);
             Debug.Log("<Color=#E60000>声音系统初始化完成</Color>");
         }
 
         #endregion
 
-        #region For external use
+        #region 调用处理
 
         public void PlaySound(string key, bool isLoop = false)
         {
@@ -81,7 +83,7 @@ namespace Game
         }
 
         /// <summary>
-        /// BGM control properties (read-write)
+        /// 背景音乐控制属性（读写）
         /// </summary>
         public bool ISPlayMusic
         {
@@ -95,18 +97,16 @@ namespace Game
                 if (value)
                 {
                     PlayMusic(curBGM, MusicVolume);
-                    QuickData.SetInt("Game_AudioManager_isPlayMusic", 1);
                 }
                 else
                 {
                     StopMusic();
-                    QuickData.SetInt("Game_AudioManager_isPlayMusic", 0);
                 }
             }
         }
 
         /// <summary>
-        /// Audio control properties (read-write)
+        /// 音效控制属性（读写）
         /// </summary>
         public bool ISPlaySound
         {
@@ -117,20 +117,15 @@ namespace Game
             set
             {
                 isPlaySound = value;
-                if (value)
+                if (!value)
                 {
-                    QuickData.SetInt("Game_AudioManager_isPlaySound", 1);
-                }
-                else
-                {
-                    QuickData.SetInt("Game_AudioManager_isPlaySound", 0);
                     StopAllLoopSound();
                 }
             }
         }
 
         /// <summary>
-        /// Background music size control
+        /// 背景音乐大小控制
         /// </summary>
         public float MusicVolume
         {
@@ -149,7 +144,7 @@ namespace Game
         }
 
         /// <summary>
-        /// Control of sound effect size
+        /// 音效大小控制
         /// </summary>
         public float SoundVolume
         {
@@ -165,7 +160,7 @@ namespace Game
 
         #endregion
 
-        #region singleton
+        #region 单例
 
         private static AudioManager instance = null;
 
@@ -178,7 +173,6 @@ namespace Game
                     GameObject ins = new GameObject("AudioManager");
                     GameObject.DontDestroyOnLoad(ins);
                     instance = ins.AddComponent<AudioManager>();
-                    instance.AAwake();
                 }
                 return instance;
             }
@@ -186,7 +180,7 @@ namespace Game
 
         #endregion
 
-        #region Sound data sheet
+        #region 音效数据
 
         public class AudioData
         {
@@ -205,45 +199,62 @@ namespace Game
 
         #endregion
 
-        #region Data
+        #region 音频数据的存储
 
         /// <summary>
-        /// The current BGM
+        /// 当前设置的BGM
         /// </summary>
-        private string curBGM;
-
-        private bool isPlayMusic;
-
-        private bool isPlaySound;
-
-        #endregion
-
-        #region initialize
-
-        /// <summary>
-        /// initialize
-        /// </summary>
-        private void AAwake()
+        private string curBGM
         {
-            isPlayMusic = QuickData.GetInt("Game_AudioManager_isPlayMusic", 1) == 1;
-            isPlaySound = QuickData.GetInt("Game_AudioManager_isPlaySound", 1) == 1;
+            get
+            {
+                return QuickData.GetString("Game_AudioManager_curBGM", "");
+            }
+            set
+            {
+                QuickData.SetString("Game_AudioManager_curBGM",value);
+            }
+        }
+
+        private bool isPlayMusic
+        {
+            get
+            {
+                return QuickData.GetBool("Game_AudioManager_isPlayMusic", true);
+            }
+            set
+            {
+                QuickData.SetBool("Game_AudioManager_isPlayMusic", value);
+            }
+        }
+
+        private bool isPlaySound
+        {
+            get
+            {
+                return QuickData.GetBool("Game_AudioManager_isPlaySound", true);
+            }
+            set
+            {
+                QuickData.SetBool("Game_AudioManager_isPlaySound", value);
+            }
         }
 
         #endregion
 
-        #region Controls
+        #region 控制中心
 
         private Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
 
-        #region General sound effect
+        #region 普通音效处理
 
         /// <summary>
-        /// Non-loop sound pool
+        /// 音效
         /// </summary>
         private List<AudioSource> soundPool = new List<AudioSource>();
 
         /// <summary>
-        /// Play a non-loop sound effect
+        /// 音效
         /// </summary>
         private void PlaySound(string name, float volume = 1f)
         {
@@ -312,7 +323,7 @@ namespace Game
 
         #endregion
 
-        #region Loop sound
+        #region 循环音频
 
         private Dictionary<string, AudioSource> soundLoopPool = new Dictionary<string, AudioSource>();
 
@@ -390,7 +401,7 @@ namespace Game
         #region BGM
 
         /// <summary>
-        /// BGM
+        /// BGM管理
         /// </summary>
         private AudioSource aSMusic = null;
 
@@ -442,5 +453,6 @@ namespace Game
         #endregion
 
         #endregion
+
     }
 }
